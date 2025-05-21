@@ -5,3 +5,5 @@
 <li><b>broadcast_address_maker</b> - получает на вход адрес подсети, возвращает широковещательный адрес подсети</li>
 <li><b>subnet_maker</b> - получает на вход сеть с длиной маски и количеством подсетей, а возвращает новые подсети и новую длину маски </li>
 </ul>
+
+<h3>Лабораторная по <a href="https://docs.google.com/document/d/1CdFNGSOdWOmfyZZTLwk94JUn1t-HrJvTObNjKbfLxE4/edit?usp=sharing">ссылке</a></h3>
