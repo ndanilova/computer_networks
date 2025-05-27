@@ -1,0 +1,50 @@
+L3# configure terminal
+!
+! 1) Создаём VLAN 
+vlan 10
+ name Computers
+exit
+vlan 20
+ name Printers
+exit
+vlan 30
+ name Phones
+exit
+vlan 60
+ name DHCP
+exit
+!
+
+interface Fa0/2
+ switchport mode access
+ switchport access vlan 60
+exit
+
+
+! 2) Настраиваем SVI для каждого VLAN 
+conf t
+!
+interface Vlan10
+ ip address 10.10.0.1 255.255.255.0
+ ip helper-address 10.60.0.1
+ no shutdown
+ exit
+!
+interface Vlan20
+ ip address 10.20.0.1 255.255.255.0
+ ip helper-address 10.60.0.1
+ no shutdown
+ exit
+!
+interface Vlan30
+ ip address 10.30.0.1 255.255.255.0
+ ip helper-address 10.60.0.1
+ no shutdown
+ exit
+!
+interface Vlan60
+ ip address 10.60.0.254 255.255.255.0
+ no shutdown
+ exit
+!
+
