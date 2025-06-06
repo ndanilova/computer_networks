@@ -1,0 +1,38 @@
+! в коммутаторе L3
+!
+enable
+configure terminal
+int range fa0/2-3
+channel-protocol lacp
+channel-group 1 mode active
+exit
+!
+!
+int range fa0/4-5
+channel-protocol lacp
+channel-group 2 mode active
+exit
+!
+!
+int range fa0/6-7
+channel-protocol lacp
+channel-group 3 mode active
+exit
+
+
+! в коммутаторе L2
+!
+!
+enable
+configure terminal
+int range fa0/10-11
+channel-protocol lacp
+! passive cause its better to use active on 1 side only
+channel-group 1 mode passive
+exit
+!
+interface port-channel 1
+! needs to write in case of several vlans
+switchport mode trunk
+end
+wr mem

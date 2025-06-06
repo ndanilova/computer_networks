@@ -1,0 +1,19 @@
+! настройка агрегации каналов
+!L2-2 and L2-3
+enable
+configure terminal
+interface range fa0/10 - 13
+switchport mode trunk
+channel-group 1 mode on
+exit
+!
+interface port-channel 1
+! needs to write in case of several vlans
+switchport mode trunk
+end
+wr
+!
+! do for both
+!
+! проверка EtherChanel на обоих коммутаторах
+show etherchannel summary
