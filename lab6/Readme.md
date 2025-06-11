@@ -2,7 +2,7 @@
 <h3>Краткая навигация по файлам:</h3>
 <ul>
 <li><b>lab6/lab6_step1.pkt</b> - первая часть лабораторной</li>
-<li><b>RSlab6/lab6_step2.pktTP</b> - вторая часть лабораторной</li>
+<li><b>lab6/lab6_step2.pkt</b> - вторая часть лабораторной</li>
 <li><b>lab6/lab6_step3.pkt</b> - третья часть лабораторной</li>
 <li><b>lab6/inner_router_script</b> - скрипт для внутреннего роутера</li>
 <li><b>lab6/outer_router_script</b> - скрипт для внешнего роутера</li>
