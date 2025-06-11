@@ -1,0 +1,96 @@
+! настройка VLAN-ов на маршрутизаторе вместо L3
+! Настройка подинтерфейсов
+!предварительно не забыть сделаь транк на свитч и влан 60 со свитча на сервер
+en
+config t
+int fa0/0
+no shut
+exit
+!  после точки номер VLAN
+int fa0/0.10 
+! последнее число номер VLAN
+encapsulation dot1Q 10
+ip address 10.10.0.1 255.255.255.0
+exit
+int fa0/0.20 
+encapsulation dot1Q 20
+ip address 10.20.0.1 255.255.255.0
+exit
+int fa0/0.30 
+encapsulation dot1Q 30
+ip address 10.30.0.1 255.255.255.0
+exit
+int fa0/0.60 
+encapsulation dot1Q 60
+ip address 10.60.0.1 255.255.255.0
+exit
+
+
+! пропишем хелперы для устройств
+en
+config t
+int fa0/0.10
+ip helper-address 10.60.0.2
+exit
+int fa0/0.20
+ip helper-address 10.60.0.2
+exit
+int fa0/0.30
+ip helper-address 10.60.0.2
+exit
+end
+wr mem
+
+! пропишем на интерфейсе ведущем на провайдер полученный от него ip
+en
+config t
+int fa0/1
+ip address 84.201.180.2 255.255.255.252
+no shut
+exit
+
+! добавляем маршрут по умолчанию, обеспечивая выход в интернет
+ip route 0.0.0.0 0.0.0.0 84.201.180.1
+end
+wr mem
+
+
+! Настройка NAT, fa0/1 будет outside
+en
+config t
+int fa0/1
+ip nat outside
+exit
+
+int fa0/0.10
+ip nat inside
+exit
+
+int fa0/0.60
+ip nat inside
+exit
+end
+wr mem
+
+! настройка access-листов
+en
+config t
+ip access-list standard FOR-NAT
+permit 10.10.0.0 0.0.0.255
+permit 10.60.0.0 0.0.0.255
+
+!Последняя команда настройки PAT
+en
+config t
+ip nat inside source list FOR-NAT interface fa0/1 overload
+
+! Для проверки результата
+show ip nat translations
+
+
+! Настройка static NAT
+en
+config t
+ip nat inside source static tcp 10.60.0.2 80 84.201.180.2 80
+end
+wr mem
